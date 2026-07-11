@@ -1,27 +1,59 @@
 local VirtualInputManager = game:GetService("VirtualInputManager")
+local CoreGui = game:GetService("CoreGui")
+local clickDelay = 0.01
 
-local clickDelay = 0.7
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "AutoClickerIndicator"
+screenGui.ResetOnSpawn = false
 
+local success, err = pcall(function()
+    screenGui.Parent = CoreGui
+end)
+if not success then
+    screenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+end
 
+local container = Instance.new("Frame")
+container.Size = UDim2.new(0, 100, 0, 45)
+container.Position = UDim2.new(1, -115, 0, 15)
+container.BackgroundTransparency = 1
+container.Parent = screenGui
+
+local indicator = Instance.new("Frame")
+indicator.Size = UDim2.new(0, 24, 0, 24)
+indicator.Position = UDim2.new(0, 0, 0, 10)
+indicator.BackgroundColor3 = Color3.fromRGB(0, 255, 128)
+indicator.BorderSizePixel = 0
+indicator.Parent = container
+
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(1, 0)
+uiCorner.Parent = indicator
+
+local uiStroke = Instance.new("UIStroke")
+uiStroke.Color = Color3.fromRGB(255, 255, 255)
+uiStroke.Thickness = 1.5
+uiStroke.Parent = indicator
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(0, 70, 0, 24)
+textLabel.Position = UDim2.new(0, 32, 0, 10)
+textLabel.BackgroundTransparency = 1
+textLabel.Text = "RUNNING V.1"
+textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+textLabel.TextSize = 12
+textLabel.Font = Enum.Font.GothamBold
+textLabel.TextXAlignment = Enum.TextXAlignment.Left
+textLabel.Parent = container
 
 while true do
-
     local viewportSize = workspace.CurrentCamera.ViewportSize
-
     local centerX = viewportSize.X / 2
-
     local centerY = viewportSize.Y / 2
-
     
-
     VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
-
     task.wait()
-
     VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
-
     
-
     task.wait(clickDelay)
-
 end
