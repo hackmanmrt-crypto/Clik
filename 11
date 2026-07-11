@@ -1,7 +1,7 @@
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local CoreGui = game:GetService("CoreGui")
 local UserInputService = game:GetService("UserInputService")
-local clickDelay = 0.9
+local clickDelay = 3
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AutoClickerIndicator"
