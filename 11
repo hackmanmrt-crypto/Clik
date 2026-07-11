@@ -40,10 +40,6 @@ task.spawn(function()
         task.wait(1)
     end
 
-    label.Text = "GO!"
-    label.TextColor3 = Color3.fromRGB(0, 255, 0)
-    task.wait(0.5)
-    ui:Destroy()
 
     while _G.AutoClicker do
         VirtualInputManager:SendMouseButtonEvent(CLICK_X, CLICK_Y, 0, true, game, 1)
