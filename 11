@@ -15,7 +15,7 @@ end
 
 local container = Instance.new("Frame")
 container.Size = UDim2.new(0, 100, 0, 45)
-container.Position = UDim2.new(1, -115, 0, 15)
+container.Position = UDim2.new(0.5, -50, 0.5, -22.5)
 container.BackgroundTransparency = 1
 container.Parent = screenGui
 
