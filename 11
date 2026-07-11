@@ -1,10 +1,9 @@
 local START_DELAY = 10
-local CLICK_X = 500
-local CLICK_Y = 500
 local CLICK_DELAY = 0.5
 
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local CoreGui = game:GetService("CoreGui")
+local Camera = workspace.CurrentCamera
 _G.AutoClicker = true
 
 local function createCountdownUI()
@@ -40,8 +39,14 @@ task.spawn(function()
         task.wait(1)
     end
 
+    ui:Destroy()
 
     while _G.AutoClicker do
+        -- คำนวณหาจุดกึ่งกลางหน้าจอแบบ Real-time (เผื่อกรณีปรับขนาดหน้าต่างเกม)
+        local screenSize = Camera.ViewportSize
+        local CLICK_X = screenSize.X / 2
+        local CLICK_Y = screenSize.Y / 2
+
         VirtualInputManager:SendMouseButtonEvent(CLICK_X, CLICK_Y, 0, true, game, 1)
         task.wait(0.02)
         VirtualInputManager:SendMouseButtonEvent(CLICK_X, CLICK_Y, 0, false, game, 1)
