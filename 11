@@ -1,4 +1,4 @@
-local START_DELAY = 10
+local START_DELAY = 25
 local CLICK_DELAY = 0.5
 
 local VirtualInputManager = game:GetService("VirtualInputManager")
