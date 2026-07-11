@@ -1,26 +1,27 @@
-local camera = workspace.CurrentCamera
-local clickInterval = 0.1
+local VirtualInputManager = game:GetService("VirtualInputManager")
 
-local function doClick()
-    local viewportSize = camera.ViewportSize
-    local screenCenter = Vector2.new(viewportSize.X / 2, viewportSize.Y / 2)
+local clickDelay = 0.7
 
-    local unitRay = camera:ViewportPointToRay(screenCenter.X, screenCenter.Y)
-    local raycastParams = RaycastParams.new()
-    raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character}
-    raycastParams.FilterType = Enum.RaycastFilterType.Exclude
 
-    local result = workspace:Raycast(unitRay.Origin, unitRay.Direction * 1000, raycastParams)
 
-    if result then
-        local hitPart = result.Instance
-        print("คลิกโดน:", hitPart:GetFullName())
-    end
+while true do
+
+    local viewportSize = workspace.CurrentCamera.ViewportSize
+
+    local centerX = viewportSize.X / 2
+
+    local centerY = viewportSize.Y / 2
+
+    
+
+    VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+
+    task.wait()
+
+    VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+
+    
+
+    task.wait(clickDelay)
+
 end
-
-task.spawn(function()
-    while true do
-        doClick()
-        task.wait(clickInterval)
-    end
-end)
