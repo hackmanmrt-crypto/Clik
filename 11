@@ -1,5 +1,6 @@
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local CoreGui = game:GetService("CoreGui")
+local UserInputService = game:GetService("UserInputService")
 local clickDelay = 0.9
 
 local screenGui = Instance.new("ScreenGui")
@@ -15,7 +16,7 @@ end
 
 local container = Instance.new("Frame")
 container.Size = UDim2.new(0, 100, 0, 45)
-container.Position = UDim2.new(0.5, -50, 0.5, -22.5)
+container.Position = UDim2.new(0.5, -50, 0, 15) 
 container.BackgroundTransparency = 1
 container.Parent = screenGui
 
@@ -39,12 +40,46 @@ local textLabel = Instance.new("TextLabel")
 textLabel.Size = UDim2.new(0, 70, 0, 24)
 textLabel.Position = UDim2.new(0, 32, 0, 10)
 textLabel.BackgroundTransparency = 1
-textLabel.Text = "RUNNING V.1"
+textLabel.Text = "V.1"
 textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 textLabel.TextSize = 12
 textLabel.Font = Enum.Font.GothamBold
 textLabel.TextXAlignment = Enum.TextXAlignment.Left
 textLabel.Parent = container
+
+--- ระบบสำหรับลาก UI (Drag System) ---
+local dragging, dragInput, dragStart, startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    container.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+container.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = container.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+container.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
 
 while true do
     local viewportSize = workspace.CurrentCamera.ViewportSize
